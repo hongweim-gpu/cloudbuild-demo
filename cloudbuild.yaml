@@ -6,9 +6,9 @@ steps:
   args:
   - -ceu
   - |
-    echo "CLOUDSDK_CONFIG=$CLOUDSDK_CONFIG"
+    echo "CLOUDSDK_CONFIG=$$CLOUDSDK_CONFIG"
     echo "== check dir =="
-    ls -ld $CLOUDSDK_CONFIG || true
+    ls -ld $$CLOUDSDK_CONFIG || true
     echo "== gcloud config =="
     gcloud config list
     echo "== gcloud auth =="
