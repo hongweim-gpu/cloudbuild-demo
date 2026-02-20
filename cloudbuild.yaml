@@ -7,10 +7,11 @@ steps:
   - -ceu
   - |
     echo "CLOUDSDK_CONFIG=$$CLOUDSDK_CONFIG"
-    echo "== check dir =="
-    ls -ld $$CLOUDSDK_CONFIG || true
-    echo "== gcloud config =="
-    gcloud config list
+    echo "== mkdir config dir =="
+    mkdir -p $$CLOUDSDK_CONFIG
+    ls -ld $$CLOUDSDK_CONFIG
+    echo "== gcloud info (check config path) =="
+    gcloud info --format='value(config.paths.global_config_dir)'
     echo "== gcloud auth =="
     gcloud auth list
 
