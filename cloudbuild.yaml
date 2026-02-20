@@ -6,7 +6,14 @@ steps:
   args:
   - -ceu
   - |
-    echo "CONFIG=$CLOUDSDK_CONFIG"
+    echo "CLOUDSDK_CONFIG=$CLOUDSDK_CONFIG"
+    echo "== check dir =="
     ls -ld $CLOUDSDK_CONFIG || true
+    echo "== gcloud config =="
     gcloud config list
+    echo "== gcloud auth =="
     gcloud auth list
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
