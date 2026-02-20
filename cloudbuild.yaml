@@ -1,13 +1,12 @@
 steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  env:
+  - CLOUDSDK_CONFIG=/workspace/.gcloud_config_a
   entrypoint: 'bash'
   args:
   - -ceu
   - |
-    gcloud run deploy cb-demo \
-      --image us-docker.pkg.dev/cloudrun/container/hello \
-      --region asia-northeast1 \
-      --platform managed \
-      --allow-unauthenticated
-options:
-  logging: CLOUD_LOGGING_ONLY
+    echo "CONFIG=$CLOUDSDK_CONFIG"
+    ls -ld $CLOUDSDK_CONFIG || true
+    gcloud config list
+    gcloud auth list
