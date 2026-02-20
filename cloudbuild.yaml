@@ -1,4 +1,5 @@
 steps:
+# ===== Step 1 : config_a =====
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
   env:
   - CLOUDSDK_CONFIG=/workspace/.gcloud_config_a
@@ -6,14 +7,51 @@ steps:
   args:
   - -ceu
   - |
+    echo "===== STEP 1 ====="
     echo "CLOUDSDK_CONFIG=$$CLOUDSDK_CONFIG"
+
     echo "== mkdir config dir =="
     mkdir -p $$CLOUDSDK_CONFIG
     ls -ld $$CLOUDSDK_CONFIG
+
     echo "== gcloud info (check config path) =="
     gcloud info --format='value(config.paths.global_config_dir)'
+
     echo "== gcloud auth =="
     gcloud auth list
+
+    echo "== deploy service A =="
+    gcloud run deploy cb-demo-a \
+      --image us-docker.pkg.dev/cloudrun/container/hello \
+      --region asia-northeast1 \
+      --platform managed
+
+# ===== Step 2 : config_b =====
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  env:
+  - CLOUDSDK_CONFIG=/workspace/.gcloud_config_b
+  entrypoint: 'bash'
+  args:
+  - -ceu
+  - |
+    echo "===== STEP 2 ====="
+    echo "CLOUDSDK_CONFIG=$$CLOUDSDK_CONFIG"
+
+    echo "== mkdir config dir =="
+    mkdir -p $$CLOUDSDK_CONFIG
+    ls -ld $$CLOUDSDK_CONFIG
+
+    echo "== gcloud info (check config path) =="
+    gcloud info --format='value(config.paths.global_config_dir)'
+
+    echo "== gcloud auth =="
+    gcloud auth list
+
+    echo "== deploy service B =="
+    gcloud run deploy cb-demo-b \
+      --image us-docker.pkg.dev/cloudrun/container/hello \
+      --region asia-northeast1 \
+      --platform managed
 
 options:
   logging: CLOUD_LOGGING_ONLY
